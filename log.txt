@@ -1,0 +1,287 @@
+(deepspeed) mark@lsl-PC:~/Research/a_MoE_experiments$ deepspeed --num_gpus 1 T0_3B_12GB.py
+[2023-05-19 15:18:14,284] [WARNING] [runner.py:191:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2023-05-19 15:18:15,495] [INFO] [runner.py:541:main] cmd = /home/mark/anaconda3/envs/deepspeed/bin/python -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMF19 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None T0_3B_12GB.py
+[2023-05-19 15:18:16,660] [INFO] [launch.py:229:main] WORLD INFO DICT: {'localhost': [0]}
+[2023-05-19 15:18:16,660] [INFO] [launch.py:235:main] nnodes=1, num_local_procs=1, node_rank=0
+[2023-05-19 15:18:16,660] [INFO] [launch.py:246:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0]})
+[2023-05-19 15:18:16,660] [INFO] [launch.py:247:main] dist_world_size=1
+[2023-05-19 15:18:16,660] [INFO] [launch.py:249:main] Setting CUDA_VISIBLE_DEVICES=0
+--------------- Start time -------------
+!!!!!!!! executing deepspeed.zero.Init __init__()!!!!!!
+[2023-05-19 15:18:35,584] [INFO] [comm.py:622:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+[2023-05-19 15:18:44,130] [INFO] [utils.py:31:print_object] AsyncPartitionedParameterSwapper:
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   aio_config ................... {'block_size': 131072, 'queue_depth': 16, 'thread_count': 1, 'single_submit': True, 'overlap_events': True}
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   aio_handle ................... <class 'async_io.aio_handle'>
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   aligned_bytes ................ 1024
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   aligned_elements_per_buffer .. 100000000
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   available_buffer_ids ......... [0, 1, 2, 3, 4, 5]
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   available_numel .............. 0
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   available_params ............. set()
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   dtype ........................ torch.float32
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   elements_per_buffer .......... 100000000
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   finished_flag ................ False
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   id_to_path ................... {}
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   inflight_numel ............... 0
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   inflight_params .............. []
+[2023-05-19 15:18:44,132] [INFO] [utils.py:35:print_object]   inflight_swap_in_buffers ..... []
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   invalid_buffer ............... 1.0
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   min_aio_bytes ................ 1048576
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   my_version ................... True
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   numel_alignment .............. 256
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   param_buffer_count ........... 6
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   param_id_to_buffer_id ........ {}
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   param_id_to_numel ............ {}
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   param_id_to_swap_buffer ...... {}
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   partitioned_swap_buffer ...... None
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   partitioned_swap_pool ........ None
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   pending_reads ................ 0
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   pending_writes ............... 0
+[2023-05-19 15:18:44,136] [INFO] [utils.py:35:print_object]   reserved_buffer_ids .......... []
+[2023-05-19 15:18:44,141] [INFO] [utils.py:35:print_object]   swap_config .................. device='nvme' nvme_path=PosixPath('/home/mark/Research/nvme_offload_save') buffer_count=6 buffer_size=100000000 max_in_cpu=1000000000 pin_memory=True
+[2023-05-19 15:18:44,141] [INFO] [utils.py:35:print_object]   swap_element_size ............ 4
+[2023-05-19 15:18:44,141] [INFO] [utils.py:35:print_object]   swap_folder .................. /home/mark/Research/nvme_offload_save/zero_stage_3/float32params/rank0
+[2023-05-19 15:18:44,141] [INFO] [utils.py:35:print_object]   swap_out_params .............. []
+!!!!!!!!!NOW before with ContextManagers!!!!!!!!!
+!!!!!!!! executing Init.fatherClass - __enter__()!!!!!!
+!!!!!!!!!!Now just get in With Content!!!!!!
+!!!!!!!! executing Init.fatherClass - __exit__()!!!!!!
+!!!!!!!! flag has been set to True!!!!!!
+[2023-05-19 15:18:45,405] [INFO] [partition_parameters.py:460:__exit__] finished initializing model with 2.85B parameters
+!!!!!!!!!NOW out of with ContextManagers!!!!!!!!!
+--------------- After from_pretrained:272.5969007015228, interval:272.5969007015228 -------------
+[2023-05-19 15:22:50,370] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed info: version=0.9.3+5c6da1f, git-hash=5c6da1f, git-branch=master
+[2023-05-19 15:22:50,582] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed Flops Profiler Enabled: False
+[2023-05-19 15:22:50,587] [INFO] [logging.py:96:log_dist] [Rank 0] Creating ZeRO Offload
+[2023-05-19 15:22:52,048] [INFO] [utils.py:785:see_memory_usage] DeepSpeedZeRoOffload initialize [begin]
+[2023-05-19 15:22:52,049] [INFO] [utils.py:786:see_memory_usage] MA 0.0 GB         Max_MA 0.49 GB         CA 0.74 GB         Max_CA 1 GB 
+[2023-05-19 15:22:52,049] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 7.41 GB, percent = 48.2%
+Parameter Offload: Total persistent parameters: 251904 in 124 params
+[2023-05-19 15:22:52,163] [INFO] [utils.py:785:see_memory_usage] DeepSpeedZeRoOffload initialize [end]
+[2023-05-19 15:22:52,163] [INFO] [utils.py:786:see_memory_usage] MA 0.0 GB         Max_MA 0.0 GB         CA 0.74 GB         Max_CA 1 GB 
+[2023-05-19 15:22:52,163] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 7.31 GB, percent = 47.6%
+[2023-05-19 15:22:52,165] [INFO] [config.py:955:print] DeepSpeedEngine configuration:
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   activation_checkpointing_config  {
+    "partition_activations": false, 
+    "contiguous_memory_optimization": false, 
+    "cpu_checkpointing": false, 
+    "number_checkpoints": null, 
+    "synchronize_checkpoint_boundary": false, 
+    "profile": false
+}
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   aio_config ................... {'block_size': 131072, 'queue_depth': 16, 'thread_count': 1, 'single_submit': True, 'overlap_events': True}
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   amp_enabled .................. False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   amp_params ................... False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   autotuning_config ............ {
+    "enabled": false, 
+    "start_step": null, 
+    "end_step": null, 
+    "metric_path": null, 
+    "arg_mappings": null, 
+    "metric": "throughput", 
+    "model_info": null, 
+    "results_dir": "autotuning_results", 
+    "exps_dir": "autotuning_exps", 
+    "overwrite": true, 
+    "fast": true, 
+    "start_profile_step": 3, 
+    "end_profile_step": 5, 
+    "tuner_type": "gridsearch", 
+    "tuner_early_stopping": 5, 
+    "tuner_num_trials": 50, 
+    "model_info_path": null, 
+    "mp_size": 1, 
+    "max_train_batch_size": null, 
+    "min_train_batch_size": 1, 
+    "max_train_micro_batch_size_per_gpu": 1.024000e+03, 
+    "min_train_micro_batch_size_per_gpu": 1, 
+    "num_tuning_micro_batch_sizes": 3
+}
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   bfloat16_enabled ............. False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   checkpoint_parallel_write_pipeline  False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   checkpoint_tag_validation_enabled  True
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   checkpoint_tag_validation_fail  False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   comms_config ................. <deepspeed.comm.config.DeepSpeedCommsConfig object at 0x7efece8c6530>
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   communication_data_type ...... None
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   compression_config ........... {'weight_quantization': {'shared_parameters': {'enabled': False, 'quantizer_kernel': False, 'schedule_offset': 0, 'quantize_groups': 1, 'quantize_verbose': False, 'quantization_type': 'symmetric', 'quantize_weight_in_forward': False, 'rounding': 'nearest', 'fp16_mixed_quantize': False, 'quantize_change_ratio': 0.001}, 'different_groups': {}}, 'activation_quantization': {'shared_parameters': {'enabled': False, 'quantization_type': 'symmetric', 'range_calibration': 'dynamic', 'schedule_offset': 1000}, 'different_groups': {}}, 'sparse_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'row_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'head_pruning': {'shared_parameters': {'enabled': False, 'method': 'topk', 'schedule_offset': 1000}, 'different_groups': {}}, 'channel_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'layer_reduction': {'enabled': False}}
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   curriculum_enabled_legacy .... False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   curriculum_params_legacy ..... False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   data_efficiency_config ....... {'enabled': False, 'seed': 1234, 'data_sampling': {'enabled': False, 'num_epochs': 1000, 'num_workers': 0, 'curriculum_learning': {'enabled': False}}, 'data_routing': {'enabled': False, 'random_ltd': {'enabled': False, 'layer_token_lr_schedule': {'enabled': False}}}}
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   data_efficiency_enabled ...... False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   dataloader_drop_last ......... False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   disable_allgather ............ False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   dump_state ................... False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   dynamic_loss_scale_args ...... None
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   eigenvalue_enabled ........... False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   eigenvalue_gas_boundary_resolution  1
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   eigenvalue_layer_name ........ bert.encoder.layer
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   eigenvalue_layer_num ......... 0
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   eigenvalue_max_iter .......... 100
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   eigenvalue_stability ......... 1e-06
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   eigenvalue_tol ............... 0.01
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   eigenvalue_verbose ........... False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   elasticity_enabled ........... False
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   flops_profiler_config ........ {
+    "enabled": false, 
+    "profile_step": 1, 
+    "module_depth": -1, 
+    "top_modules": 1, 
+    "detailed": true, 
+    "output_file": null
+}
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   fp16_auto_cast ............... None
+[2023-05-19 15:22:52,165] [INFO] [config.py:959:print]   fp16_enabled ................. False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   fp16_master_weights_and_gradients  False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   global_rank .................. 0
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   grad_accum_dtype ............. None
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   gradient_accumulation_steps .. 1
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   gradient_clipping ............ 0.0
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   gradient_predivide_factor .... 1.0
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   hybrid_engine ................ enabled=False max_out_tokens=512 inference_tp_size=1 release_inference_cache=False pin_parameters=True tp_gather_partition_size=8
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   initial_dynamic_scale ........ 65536
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   load_universal_checkpoint .... False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   loss_scale ................... 0
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   memory_breakdown ............. False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   mics_hierarchial_params_gather  False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   mics_shard_size .............. -1
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   monitor_config ............... tensorboard=TensorBoardConfig(enabled=False, output_path='', job_name='DeepSpeedJobName') wandb=WandbConfig(enabled=False, group=None, team=None, project='deepspeed') csv_monitor=CSVConfig(enabled=False, output_path='', job_name='DeepSpeedJobName') enabled=False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   nebula_config ................ {
+    "enabled": false, 
+    "persistent_storage_path": null, 
+    "persistent_time_interval": 100, 
+    "num_of_version_in_retention": 2, 
+    "enable_nebula_load": true, 
+    "load_path": null
+}
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   optimizer_legacy_fusion ...... False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   optimizer_name ............... None
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   optimizer_params ............. None
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   pipeline ..................... {'stages': 'auto', 'partition': 'best', 'seed_layers': False, 'activation_checkpoint_interval': 0}
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   pld_enabled .................. False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   pld_params ................... False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   prescale_gradients ........... False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   scheduler_name ............... None
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   scheduler_params ............. None
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   sparse_attention ............. None
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   sparse_gradients_enabled ..... False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   steps_per_print .............. 2000
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   train_batch_size ............. 1
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   train_micro_batch_size_per_gpu  1
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   use_node_local_storage ....... False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   wall_clock_breakdown ......... False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   world_size ................... 1
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   zero_allow_untested_optimizer  False
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   zero_config .................. stage=3 contiguous_gradients=True reduce_scatter=True reduce_bucket_size=4194304 allgather_partitions=True allgather_bucket_size=500,000,000 overlap_comm=True load_from_fp32_weights=True elastic_checkpoint=False offload_param=DeepSpeedZeroOffloadParamConfig(device='nvme', nvme_path=PosixPath('/home/mark/Research/nvme_offload_save'), buffer_count=6, buffer_size=100000000, max_in_cpu=1000000000, pin_memory=True) offload_optimizer=None sub_group_size=1,000,000,000 cpu_offload_param=None cpu_offload_use_pin_memory=None cpu_offload=None prefetch_bucket_size=419430 param_persistence_threshold=20480 model_persistence_threshold=sys.maxsize max_live_parameters=100000000 max_reuse_distance=100000000 gather_16bit_weights_on_model_save=False stage3_gather_fp16_weights_on_model_save=False ignore_unused_parameters=True legacy_stage1=False round_robin_gradients=False mics_shard_size=-1 mics_hierarchical_params_gather=False memory_efficient_linear=True
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   zero_enabled ................. True
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   zero_force_ds_cpu_optimizer .. True
+[2023-05-19 15:22:52,166] [INFO] [config.py:959:print]   zero_optimization_stage ...... 3
+[2023-05-19 15:22:52,166] [INFO] [config.py:945:print_user_config]   json = {
+    "fp16": {
+        "enabled": false
+    }, 
+    "bf16": {
+        "enabled": false
+    }, 
+    "zero_optimization": {
+        "stage": 3, 
+        "offload_param": {
+            "device": "nvme", 
+            "nvme_path": "/home/mark/Research/nvme_offload_save", 
+            "pin_memory": true, 
+            "buffer_count": 6, 
+            "buffer_size": 1.000000e+08, 
+            "max_in_cpu": 1.000000e+09
+        }, 
+        "overlap_comm": true, 
+        "contiguous_gradients": true, 
+        "reduce_bucket_size": 4.194304e+06, 
+        "stage3_prefetch_bucket_size": 4.194304e+05, 
+        "stage3_max_live_parameters": 1.000000e+08, 
+        "stage3_max_reuse_distance": 1.000000e+08, 
+        "stage3_param_persistence_threshold": 2.048000e+04
+    }, 
+    "aio": {
+        "block_size": 1.310720e+05, 
+        "queue_depth": 16, 
+        "thread_count": 1, 
+        "single_submit": true, 
+        "overlap_events": true
+    }, 
+    "steps_per_print": 2.000000e+03, 
+    "train_batch_size": 1, 
+    "train_micro_batch_size_per_gpu": 1, 
+    "wall_clock_breakdown": false
+}
+Using /home/mark/.cache/torch_extensions/py310_cu118 as PyTorch extensions root...
+Emitting ninja build file /home/mark/.cache/torch_extensions/py310_cu118/utils/build.ninja...
+Building extension module utils...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module utils...
+Time to load utils op: 0.14722704887390137 seconds
+--------------- After ds_init: 274.5453963279724s, interval:1.948495626449585 -------------
+--------------- After module.eval(): 274.54769563674927s, interval:0.0022993087768554688 -------------
+--------------- After tokenizer.from_pretrained(): 274.877512216568s, interval:0.3298165798187256 -------------
+/home/mark/Research/transformers/src/transformers/generation/utils.py:1349: UserWarning: Using `max_length`'s default (20) to control the generation length. This behaviour is deprecated and will be removed from the config in v5 of Transformers -- we recommend using `max_new_tokens` to control the maximum length of the generation.
+  warnings.warn(
+Invalidate trace cache @ step 0: expected module 2, but got module 0
+--------------- After inference output: 341.71530175209045s, interval:66.83778953552246 -------------
+rank0:
+   in=what do you think of president Obama?
+  out=jenigenNI YouTube loyal pounds dropsincome hisleg Hofatenția Dominicsewage Lay steepdippingGermainfollow beneficial
+[2023-05-19 15:24:03,037] [INFO] [launch.py:460:main] Process 17070 exits successfully.
+
+
+
+------------- 上面是直接利用保存的.swap跳过"finished"之前部分的完整输出-------------------
+
+Model class is <class 'transformers.models.t5.modeling_t5.T5ForConditionalGeneration'>
+
+
+----------------_post_init_methods是!  swap_out_and_release是~ ----------------
+_post_init_methods次数多，每次_post_init_methods不一定会swap_out_and_release
+
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+!!!!!!!!!!!![0] time will param.partition() in next line!!!!!!
+~~~~~ Next line call swap_out_and_release([param])~~~~~~~~~~
+
+
+diff "/home/mark/Research/nvme_offload_save/zero_stage_3/float32params/rank0/0_param.tensor.swp" "/home/mark/Research/nvme_offload/zero_stage_3/float32params/rank0/0_param.tensor.swp"
+diff /home/mark/Research/a_MoE_experiments/a.txt /home/mark/Research/a_MoE_experiments/b.txt
