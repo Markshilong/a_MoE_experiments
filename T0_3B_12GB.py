@@ -18,6 +18,53 @@ import deepspeed
 import os
 import torch
 import time
+# from deepspeed.utils.debug import my_saveload_module_individually
+
+def print_params_embedding_layernorm(module):
+    def print_weights_recursively(module):
+        for child in module.children():
+            print_weights_recursively(child)
+        if module.__class__.__name__ == "Embedding":
+            filename = "/home/mark/Research/a_MoE_experiments/paramsEmbedding_before_generate_skip.txt"
+            with open(filename, 'a+') as f:
+                f.write("-------------------------------------")
+                f.write(f"Name[{module.__class__.__name__}]\n")
+                for i, param in enumerate(module.parameters()):
+                    f.write(f"[{i}]\n")
+                    f.write(f"[param.ds_id]{param.ds_id}\n")
+                    f.write(f"[param.ds_numel]{param.ds_numel}\n")
+                    f.write(f"[param.ds_shape]{param.ds_shape}\n")
+                    f.write(f"[param.data]{param.data}\n")
+                    f.write(f"[param.data.shape]{param.data.shape}\n")
+                    f.write(f"[param.ds_tensor]{param.ds_tensor}\n\n")
+                # f.write(f"Name[{module.state_dict()}]\n\n")
+        elif module.__class__.__name__ == "T5LayerNorm":
+            filename = "/home/mark/Research/a_MoE_experiments/paramsLayerNorm_before_generate_skip.txt"
+            with open(filename, 'a+') as f:
+                f.write("-------------------------------------")
+                f.write(f"Name[{module.__class__.__name__}]\n")
+                for i, param in enumerate(module.parameters()):
+                    f.write(f"[{i}]\n")
+                    f.write(f"[param.ds_id]{param.ds_id}\n")
+                    f.write(f"[param.ds_numel]{param.ds_numel}\n")
+                    f.write(f"[param.ds_shape]{param.ds_shape}\n")
+                    f.write(f"[param.data]{param.data}\n")
+                    f.write(f"[param.data.shape]{param.data.shape}\n")
+                    f.write(f"[param.ds_tensor]{param.ds_tensor}\n\n")
+
+                # f.write(f"Name[{module.state_dict()}]\n\n")
+
+
+    if os.path.exists("/home/mark/Research/a_MoE_experiments/paramsEmbedding_before_generate_skip.txt"):
+        os.remove("/home/mark/Research/a_MoE_experiments/paramsEmbedding_before_generate_skip.txt")
+        os.remove("/home/mark/Research/a_MoE_experiments/paramsLayerNorm_before_generate_skip.txt")
+    print_weights_recursively(module)
+
+
+
+
+
+
 
 start_time = time.time()
 print(f"--------------- Start time -------------")
@@ -117,18 +164,16 @@ dschf = HfDeepSpeedConfig(ds_config)  # keep this object alive
 # now a model can be loaded.
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)#, low_cpu_mem_usage=True)
 time1 = time.time()
-print(f"--------------- After from_pretrained:{time1 - start_time}, interval:{time1 - start_time} -------------")
+print(f"--------[{time1 - start_time}s] model.from_pretrained DONE, interval:{time1 - start_time} -------------")
 # exit()
 
 # initialise Deepspeed ZeRO and store only the engine object
 ds_engine = deepspeed.initialize(model=model, config_params=ds_config)[0]
 time2 = time.time()
-print(f"--------------- After ds_init: {time2 - start_time}s, interval:{time2 - time1} -------------")
+print(f"--------[{time2 - start_time}s] deepspeed.initialize DONE, interval:{time2 - time1} -------------")
 
 
 ds_engine.module.eval()  # inference
-time3 = time.time()
-print(f"--------------- After module.eval(): {time3 - start_time}s, interval:{time3 - time2} -------------")
 
 
 # Deepspeed ZeRO can process unrelated inputs on each GPU. So for 2 gpus you process 2 inputs at once.
@@ -138,21 +183,40 @@ print(f"--------------- After module.eval(): {time3 - start_time}s, interval:{ti
 rank = torch.distributed.get_rank()
 if rank == 0:
     text_in = "what do you think of president Obama?"
+    # text_in = "I really want to eat an apple now"
 elif rank == 1:
     text_in = "Is this review positive or negative? Review: this is the worst restaurant ever"
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
-time4 = time.time()
-print(f"--------------- After tokenizer.from_pretrained(): {time4 - start_time}s, interval:{time4 - time3} -------------")
+time3 = time.time()
+print(f"--------------- After tokenizer.from_pretrained(): {time3 - start_time}s, interval:{time3 - time3} -------------")
 
 inputs = tokenizer.encode(text_in, return_tensors="pt").to(device=local_rank)
 #from transformers.deepspeed import is_deepspeed_zero3_enabled
 #print(f"Deepspeed 3 is enabled: {is_deepspeed_zero3_enabled()}")
+
+
+print_params_embedding_layernorm(ds_engine.module)
+
+inf_start = time.time()
 with torch.no_grad():
     outputs = ds_engine.module.generate(inputs, synced_gpus=True)
+inf_end = time.time()
+print(f"--------------- After inference output: {time5 - start_time}s, interval:{time5 - time3} -------------")
+
 text_out = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 time5 = time.time()
-print(f"--------------- After inference output: {time5 - start_time}s, interval:{time5 - time4} -------------")
+print(f"--------------- After inference output: {time5 - start_time}s, interval:{time5 - time3} -------------")
 
 print(f"rank{rank}:\n   in={text_in}\n  out={text_out}")
+
+# synced_gpus (bool, optional) — Whether to continue running the while loop until max_length. 
+# Unless overridden this flag will be set to True under DeepSpeed ZeRO Stage 3 multiple GPUs environment 
+# to avoid hanging if one GPU finished generating before other GPUs. Otherwise it’ll be set to False.
+
+# generate  weights空
+# T5LayerNorm - gather - print weights skip: 1  no-skip: pretrained.
+# T5LayerNorm - 
+
+# NVMe -> correct

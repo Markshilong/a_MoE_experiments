@@ -8,8 +8,8 @@ def compare_files(file1, file2):
             print("NOT same")
 
 # Example usage:
-# compare_files("/home/mark/Research/nvme_offload_save/zero_stage_3/float32params/rank0/511_param.tensor.swp", "/home/mark/Research/nvme_offload/zero_stage_3/float32params/rank0/511_param.tensor.swp")
-compare_files("/home/mark/Research/a_MoE_experiments/before.txt", "/home/mark/Research/a_MoE_experiments/after.txt")
-
+# compare_files("/home/mark/Research/nvme_offload_save/zero_stage_3/float32params/rank0/456_param.tensor.swp", "/home/mark/Research/nvme_offload/zero_stage_3/float32params/rank0/456_param.tensor.swp")
+# compare_files("/home/mark/Research/a_MoE_experiments/before.txt", "/home/mark/Research/a_MoE_experiments/after.txt")
+compare_files("/home/mark/Research/a_MoE_experiments/metaDataBefore.txt", "/home/mark/Research/a_MoE_experiments/metaDataAfter.txt")
 # diff "/home/mark/Research/nvme_offload_save/zero_stage_3/float32params/rank0/0_param.tensor.swp" "/home/mark/Research/nvme_offload/zero_stage_3/float32params/rank0/0_param.tensor.swp"
 # compare_files("/home/mark/Research/a_MoE_experiments/a.txt", "/home/mark/Research/a_MoE_experiments/b.txt")

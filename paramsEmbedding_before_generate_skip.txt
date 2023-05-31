@@ -1,0 +1,141 @@
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]0
+[param.ds_numel]65798144
+[param.ds_shape]torch.Size([32128, 2048])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]1.0
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]0
+[param.ds_numel]65798144
+[param.ds_shape]torch.Size([32128, 2048])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]1.0
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]5
+[param.ds_numel]1024
+[param.ds_shape]torch.Size([32, 32])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]tensor([ 1.2025,  0.4389, -0.8711,  ..., -0.3794, -1.1582, -2.5847],
+       device='cuda:0', grad_fn=<CopyBackwards>)
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]0
+[param.ds_numel]65798144
+[param.ds_shape]torch.Size([32128, 2048])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]1.0
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]223
+[param.ds_numel]1024
+[param.ds_shape]torch.Size([32, 32])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]tensor([-0.4325,  0.3043, -0.7478,  ..., -1.0932,  0.0890, -1.2971],
+       device='cuda:0', grad_fn=<CopyBackwards>)
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]0
+[param.ds_numel]65798144
+[param.ds_shape]torch.Size([32128, 2048])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]1.0
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]0
+[param.ds_numel]65798144
+[param.ds_shape]torch.Size([32128, 2048])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]1.0
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]5
+[param.ds_numel]1024
+[param.ds_shape]torch.Size([32, 32])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]tensor([-0.0939,  1.2597,  1.4319,  ...,  0.9928,  1.7116, -1.2148],
+       device='cuda:0', grad_fn=<CopyBackwards>)
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]0
+[param.ds_numel]65798144
+[param.ds_shape]torch.Size([32128, 2048])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]1.0
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]223
+[param.ds_numel]1024
+[param.ds_shape]torch.Size([32, 32])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]tensor([-1.8513,  1.1590, -0.7101,  ..., -0.1681, -0.0403,  0.4180],
+       device='cuda:0', grad_fn=<CopyBackwards>)
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]0
+[param.ds_numel]65798144
+[param.ds_shape]torch.Size([32128, 2048])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]1.0
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]0
+[param.ds_numel]65798144
+[param.ds_shape]torch.Size([32128, 2048])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]1.0
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]5
+[param.ds_numel]1024
+[param.ds_shape]torch.Size([32, 32])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]tensor([-0.0060, -1.5130,  0.9037,  ..., -1.1835, -0.9755, -0.5124],
+       device='cuda:0', grad_fn=<CopyBackwards>)
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]0
+[param.ds_numel]65798144
+[param.ds_shape]torch.Size([32128, 2048])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]1.0
+
+-------------------------------------Name[Embedding]
+[0]
+[param.ds_id]223
+[param.ds_numel]1024
+[param.ds_shape]torch.Size([32, 32])
+[param.data]tensor([], device='cuda:0')
+[param.data.shape]torch.Size([0])
+[param.ds_tensor]tensor([ 0.0242, -1.3889, -1.1628,  ..., -2.0601, -0.2107, -1.1749],
+       device='cuda:0', grad_fn=<CopyBackwards>)
+
