@@ -21,6 +21,7 @@ import time
 # from deepspeed.utils.debug import my_saveload_module_individually
 
 def print_params_embedding_layernorm(module):
+
     def print_weights_recursively(module):
         for child in module.children():
             print_weights_recursively(child)
@@ -60,14 +61,13 @@ def print_params_embedding_layernorm(module):
         os.remove("/home/mark/Research/a_MoE_experiments/paramsLayerNorm_before_generate_skip.txt")
     print_weights_recursively(module)
 
-
-
+    
 
 
 
 
 start_time = time.time()
-print(f"--------------- Start time -------------")
+print(f"--------------- [0s] Start time -------------")
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"  # To avoid warnings about parallelism in tokenizers
 
@@ -164,13 +164,13 @@ dschf = HfDeepSpeedConfig(ds_config)  # keep this object alive
 # now a model can be loaded.
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)#, low_cpu_mem_usage=True)
 time1 = time.time()
-print(f"--------[{time1 - start_time}s] model.from_pretrained DONE, interval:{time1 - start_time} -------------")
+print(f"\n--------[{time1 - start_time}s] model.from_pretrained DONE, interval:{time1 - start_time} -------------\n")
 # exit()
 
 # initialise Deepspeed ZeRO and store only the engine object
 ds_engine = deepspeed.initialize(model=model, config_params=ds_config)[0]
 time2 = time.time()
-print(f"--------[{time2 - start_time}s] deepspeed.initialize DONE, interval:{time2 - time1} -------------")
+print(f"\n--------[{time2 - start_time}s] deepspeed.initialize DONE, interval:{time2 - time1} -------------\n")
 
 
 ds_engine.module.eval()  # inference
@@ -189,27 +189,54 @@ elif rank == 1:
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 time3 = time.time()
-print(f"--------------- After tokenizer.from_pretrained(): {time3 - start_time}s, interval:{time3 - time3} -------------")
+print(f"\n--------[{time3 - start_time}s] tokenizer.from_pretrained() DONE, interval:{time3 - time2} -------------\n")
 
 inputs = tokenizer.encode(text_in, return_tensors="pt").to(device=local_rank)
 #from transformers.deepspeed import is_deepspeed_zero3_enabled
 #print(f"Deepspeed 3 is enabled: {is_deepspeed_zero3_enabled()}")
 
+## print params of Embedding and LayerNorm before generate
+# print_params_embedding_layernorm(ds_engine.module)
 
-print_params_embedding_layernorm(ds_engine.module)
+## print params of other layers before generate
+filename = "/home/mark/Research/a_MoE_experiments/paramsOthers_before_generate_ori.txt"
+if os.path.exists(filename):
+    os.remove(filename)
+for name, module in ds_engine.module.named_modules():
+    with open(filename, 'a+') as f:
+        f.write("-------------------------------------")
+        f.write(f"Name[{module.__class__.__name__}] [{name}]\n")
+        for i, param in enumerate(module.parameters()):
+            f.write(f"[{i}]\n")
+            f.write(f"[param.ds_id]{param.ds_id}\n")
+            f.write(f"[param.ds_numel]{param.ds_numel}\n")
+            f.write(f"[param.ds_shape]{param.ds_shape}\n")
+            f.write(f"[param.data]{param.data}\n")
+            f.write(f"[param.data.shape]{param.data.shape}\n")
+            f.write(f"[param.ds_tensor]{param.ds_tensor}\n\n")
+
 
 inf_start = time.time()
 with torch.no_grad():
     outputs = ds_engine.module.generate(inputs, synced_gpus=True)
 inf_end = time.time()
-print(f"--------------- After inference output: {time5 - start_time}s, interval:{time5 - time3} -------------")
+print(f"\n--------------------------- inference time = {inf_end - inf_start}s -----------------------\n")
 
 text_out = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-time5 = time.time()
-print(f"--------------- After inference output: {time5 - start_time}s, interval:{time5 - time3} -------------")
+time4 = time.time()
+print(f"\n--------[{time4 - start_time}s] encode + Generate + decode DONE, interval:{time4 - time3} -------------\n")
 
 print(f"rank{rank}:\n   in={text_in}\n  out={text_out}")
+
+print("\n\n------------time summary ---------------")
+print(f"[0s] Start time")
+print(f"[{time1 - start_time}s] model.from_pretrained DONE, interval:{time1 - start_time}s")
+print(f"[{time2 - start_time}s] deepspeed.initialize DONE, interval:{time2 - time1}s")
+print(f"[{time3 - start_time}s] tokenizer.from_pretrained() DONE, interval:{time3 - time2}s")
+print(f"!! inference time = {inf_end - inf_start}s ")
+print(f"[{time4 - start_time}s] encode + Generate + decode DONE, interval:{time4 - time3}s")
+
 
 # synced_gpus (bool, optional) — Whether to continue running the while loop until max_length. 
 # Unless overridden this flag will be set to True under DeepSpeed ZeRO Stage 3 multiple GPUs environment 
