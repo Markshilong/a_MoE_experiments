@@ -13,6 +13,7 @@
 # my --------------------------------------
 import os
 import torch
+from datetime import datetime, timedelta
 
 
 # ------------------- settings, should not be changed after running ------------------------- 
@@ -46,6 +47,10 @@ sar_command = "sar -P ALL 1 120 > sar_seperateCPUs_inference_ori.txt"  # all cpu
 nvidia_monitor_enabled = True #
 nvidia_command = "/home/shilong/Research/a_MoE_experiments/monitors/nvidia-smi_prof.sh /home/shilong/Research/a_MoE_experiments/monitors/gpu_trace/nvidiasmi_noOffload.txt"
 
+
+# ---- inference duration ---
+inference_duration_enabled = True
+duration = timedelta(minutes=2)
 # --------------------------------------------------------------------------------------------
 
 # ----

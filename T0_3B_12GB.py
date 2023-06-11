@@ -26,6 +26,8 @@ import sys
 from datetime import datetime
 import signal
 from my_debug_utils import strace_monitor_enabled, strace_command, sar_monitor_enabled, sar_command, nvidia_monitor_enabled, nvidia_monitor_enabled, nvidia_command
+from my_debug_utils import inference_duration_enabled, duration
+
 # from deepspeed.utils.debug import my_saveload_module_individually
 
 def monitor():
@@ -278,13 +280,35 @@ if (nvidia_monitor_enabled):
 print(f"start inference in 1 seconds")
 time.sleep(1)
 
-print(" --- Start inference at " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+
+
+
+# -------------------------INFERENCE start-------------------------
+print(" !!! Start inference at " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 inf_start = time.time()
-with torch.no_grad():
-    outputs = ds_engine.module.generate(inputs, synced_gpus=True)
+
+iteration_num = 0
+if (inference_duration_enabled):
+    end_time = datetime.now() + duration
+    while datetime.now() < end_time:
+        with torch.no_grad():
+            outputs = ds_engine.module.generate(inputs, synced_gpus=True)
+            iteration_num += 1
+else:
+    with torch.no_grad():
+        outputs = ds_engine.module.generate(inputs, synced_gpus=True)
+        iteration_num += 1
+
+
 inf_end = time.time()
-print(" --- End inference at " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-print(f"\n--------------------------- inference time = {inf_end - inf_start}s -----------------------\n")
+print(" !!! End inference at " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+# -------------------------INFERENCE end-------------------------
+print(f"\n--------------------------- inference time = {inf_end - inf_start}s --- iteration:{iteration_num}--------------------\n")
+
+
+
+
 
 if (nvidia_monitor_enabled):
     for child in nvidia_parent_process.children(recursive=True):
