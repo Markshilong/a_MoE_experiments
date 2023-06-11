@@ -25,7 +25,6 @@ import subprocess
 import sys
 from datetime import datetime
 import signal
-sys.path.append('/home/mark/Research/a_MoE_experiments/my_debug_utils')
 from my_debug_utils import strace_monitor_enabled, strace_command, sar_monitor_enabled, sar_command, nvidia_monitor_enabled, nvidia_monitor_enabled, nvidia_command
 # from deepspeed.utils.debug import my_saveload_module_individually
 
@@ -166,10 +165,10 @@ ds_config = {
         "enabled": False
     },
     "zero_optimization": {
-        "stage": 3,
+        "stage": 0,
         "offload_param": {
             "device": "cpu",
-            # "nvme_path": "/home/mark/Research/nvme_offload_save",
+            # "nvme_path": "/home/shilong/Research/nvme_offload",
             "pin_memory": True,
             "buffer_count": 6,
             "buffer_size": 1e8,
@@ -287,8 +286,9 @@ inf_end = time.time()
 print(" --- End inference at " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 print(f"\n--------------------------- inference time = {inf_end - inf_start}s -----------------------\n")
 
-for child in nvidia_parent_process.children(recursive=True):
-    os.kill(child.pid, signal.SIGINT)
+if (nvidia_monitor_enabled):
+    for child in nvidia_parent_process.children(recursive=True):
+        os.kill(child.pid, signal.SIGINT)
 
 
 text_out = tokenizer.decode(outputs[0], skip_special_tokens=True)
