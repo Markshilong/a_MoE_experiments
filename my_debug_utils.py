@@ -4,6 +4,11 @@
 # sys.path.append('/home/mark/Research/a_MoE_experiments/my_debug_utils')
 # from my_debug_utils import ...
 
+# useful command
+# split -l 10000 output.txt output_ -d --additional-suffix=.txt --suffix-length=3
+# --- split blktrace ---
+# split -l 50000 /home/mark/Research/a_MoE_experiments/blktrace_inference_ori.txt /home/mark/Research/a_MoE_experiments/inference_blktrace_strace/blktrace_inference_ori/blkparse_inference_ori_ -d --additional-suffix=.txt --suffix-length=3
+
 
 # my --------------------------------------
 import os
@@ -18,16 +23,34 @@ my_skip_2_enabled = False # True to skip initialization stage 2 (module._load_fr
 # True:
 # 1. skip 'module._load_from_state_dict(*args)'
 # 2. activate 'my_saveload_module_individually'
-strace_monitor_enabled = True # True to run strace command
+
+# ---- strace ----
+strace_monitor_enabled = False # True to run strace command
 # strace_command = "sudo strace -o strace_desc_ori_2.txt -e trace=%desc -f -t -p " # +str(pid)
-strace_command = "sudo strace -o strace_all_ori.txt -f -t -p " # +str(pid)
+strace_command = "sudo strace -o strace_all_inference_ori.txt -f -t -p " # +str(pid)
+
+
+# ---- blktrace -----
+blktrace_monitor_enabled = False # True to run blktrace command
+# blktrace_command = "sudo blktrace -d /dev/nvme1n1p4 -o - | blkparse -i - > blktrace_inference_ori.txt"
+blktrace_command = "sudo blktrace -d /dev/nvme1n1p4 -o blktrace_inference_ori"
+
+forward_prehook_time_output = True
+
+# ---- sar -----
+sar_monitor_enabled = False #
+sar_command = "sar -u 1 120 > sar_allCPU_inference_ori.txt"  # all cpus, per 1 second
+sar_command = "sar -P ALL 1 120 > sar_seperateCPUs_inference_ori.txt"  # all cpus, per 1 second
+
+# ---- nvidia-smi ----
+nvidia_monitor_enabled = True #
+nvidia_command = "/home/mark/Research/a_MoE_experiments/testFolder/nvidia-smi_prof.sh /home/mark/Research/a_MoE_experiments/gpu_log_cpuoffload.txt"  # all cpus, per 1 second
 
 # --------------------------------------------------------------------------------------------
 
 # ----
 countt = 0
 module_index = 0
-
 
 def my_saveload_module_individually(current_submodule, save_or_load, print=True):
     # save/load T5LayerNorm and Embedding weights

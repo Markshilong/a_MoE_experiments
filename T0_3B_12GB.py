@@ -23,8 +23,10 @@ import threading
 from matplotlib import pyplot as plt
 import subprocess
 import sys
+from datetime import datetime
+import signal
 sys.path.append('/home/mark/Research/a_MoE_experiments/my_debug_utils')
-from my_debug_utils import strace_monitor_enabled, strace_command
+from my_debug_utils import strace_monitor_enabled, strace_command, sar_monitor_enabled, sar_command, nvidia_monitor_enabled, nvidia_monitor_enabled, nvidia_command
 # from deepspeed.utils.debug import my_saveload_module_individually
 
 def monitor():
@@ -95,7 +97,7 @@ def print_params_embedding_layernorm(module):
 # ----- monitor -----
 process = psutil.Process()
 pid = process.pid
-print(f"------------ Monitor - PID = {pid} ----------------")
+print(f"------------ PID = {pid} ----------------")
     
 # 记录时间和内存使用情况的列表
 timestamps = []
@@ -166,8 +168,8 @@ ds_config = {
     "zero_optimization": {
         "stage": 3,
         "offload_param": {
-            "device": "nvme",
-            "nvme_path": "/home/mark/Research/nvme_offload_save",
+            "device": "cpu",
+            # "nvme_path": "/home/mark/Research/nvme_offload_save",
             "pin_memory": True,
             "buffer_count": 6,
             "buffer_size": 1e8,
@@ -263,14 +265,31 @@ inputs = tokenizer.encode(text_in, return_tensors="pt").to(device=local_rank)
 #             f.write(f"[param.data.shape]{param.data.shape}\n")
 #             f.write(f"[param.ds_tensor]{param.ds_tensor}\n\n")
 
-with open("inference_line.txt", "r") as f:
-    content = f.read()
+for i in range(2):
+    print(f"monitor will start in {i+1} seconds")
+    time.sleep(1)
 
+if (sar_monitor_enabled):
+    sar_process = subprocess.Popen(sar_command, shell=True)
+
+if (nvidia_monitor_enabled):
+    nvidia_process = subprocess.Popen(nvidia_command, shell=True)
+    nvidia_parent_process = psutil.Process(nvidia_process.pid)
+
+print(f"start inference in 1 seconds")
+time.sleep(1)
+
+print(" --- Start inference at " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 inf_start = time.time()
 with torch.no_grad():
     outputs = ds_engine.module.generate(inputs, synced_gpus=True)
 inf_end = time.time()
+print(" --- End inference at " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 print(f"\n--------------------------- inference time = {inf_end - inf_start}s -----------------------\n")
+
+for child in nvidia_parent_process.children(recursive=True):
+    os.kill(child.pid, signal.SIGINT)
+
 
 text_out = tokenizer.decode(outputs[0], skip_special_tokens=True)
 

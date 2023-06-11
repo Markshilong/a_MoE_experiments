@@ -1,0 +1,5 @@
+Linux 5.19.0-43-generic (lsl-PC) 	06/09/2023 	_x86_64_	(16 CPU)
+
+05:55:40 PM kbmemfree   kbavail kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact   kbdirty  kbanonpg    kbslab  kbkstack   kbpgtbl  kbvmused
+05:55:41 PM  27234256  31495308   5657648     13.86    233364   7114088  24553364     43.50   1492508   8737040       504   5077400    575188     38240     89616    206764
+Average:     27234256  31495308   5657648     13.86    233364   7114088  24553364     43.50   1492508   8737040       504   5077400    575188     38240     89616    206764
