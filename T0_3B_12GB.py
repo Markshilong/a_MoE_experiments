@@ -167,10 +167,10 @@ ds_config = {
         "enabled": False
     },
     "zero_optimization": {
-        "stage": 0,
+        "stage": 3,
         "offload_param": {
-            "device": "cpu",
-            # "nvme_path": "/home/shilong/Research/nvme_offload",
+            "device": "nvme",
+            "nvme_path": "/home/shilong/Research/nvme_offload",
             "pin_memory": True,
             "buffer_count": 6,
             "buffer_size": 1e8,
