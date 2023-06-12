@@ -6,7 +6,6 @@ import os
 import signal
 import torch
 
-print(torch.cuda.device_count())
 
 # # /home/mark/anaconda3/envs/deepspeed/bin/python
 
@@ -42,14 +41,12 @@ print(torch.cuda.device_count())
 # #     print(f'send SIGINT to {child.pid}')
 # #     result = subprocess.run(["kill", "-INT", str(child.pid)], capture_output=True, text=True)
 
-# duration = 3
+duration = 1 # run for 3 seconds
+count = 0
 
-
-# count = 0
-
-# while True:
-    
-#     print("Executing once")
-#     start_time = time.time()
-#     while (time.time() - start_time < duration):
-#         count += 1
+while True:
+    print("Executing once")
+    start_time = time.time()
+    while (time.time() - start_time < duration):
+        count += 1
+    time.sleep(1)
