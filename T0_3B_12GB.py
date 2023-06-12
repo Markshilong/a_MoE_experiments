@@ -27,7 +27,7 @@ from datetime import datetime
 import signal
 from my_debug_utils import strace_monitor_enabled, strace_command, sar_monitor_enabled, sar_command, nvidia_monitor_enabled, nvidia_monitor_enabled, nvidia_command
 from my_debug_utils import inference_duration_enabled, duration
-
+from torch.cuda import nvtx
 # from deepspeed.utils.debug import my_saveload_module_individually
 
 def monitor():
@@ -210,16 +210,22 @@ ds_config = {
 
 # this line instructs transformers to partition the model directly over multiple gpus using
 # deepspeed.zero.Init when model's `from_pretrained` method is called.
+nvtx.range_push("HfDeepSpeedConfig(ds_config)")
 dschf = HfDeepSpeedConfig(ds_config)  # keep this object alive
+nvtx.range_pop()
 
+nvtx.range_push("model.from_pretrained")
 # now a model can be loaded.
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)#, low_cpu_mem_usage=True)
+nvtx.range_pop()
 time1 = time.time()
 print(f"\n--------[{time1 - time0}s] model.from_pretrained DONE, interval:{time1 - time0} -------------\n")
 # exit()
 
 # initialise Deepspeed ZeRO and store only the engine object
+nvtx.range_push("deepspeed.initialize")
 ds_engine = deepspeed.initialize(model=model, config_params=ds_config)[0]
+nvtx.range_pop()
 time2 = time.time()
 print(f"\n--------[{time2 - time0}s] deepspeed.initialize DONE, interval:{time2 - time1} -------------\n")
 
@@ -293,11 +299,15 @@ if (inference_duration_enabled):
     end_time = datetime.now() + duration
     while datetime.now() < end_time:
         with torch.no_grad():
+            nvtx.range_push(f"inference iteration {iteration_num}")
             outputs = ds_engine.module.generate(inputs, synced_gpus=True)
+            nvtx.range_pop()
             iteration_num += 1
 else:
     with torch.no_grad():
+        nvtx.range_push(f"inference iteration {iteration_num}")
         outputs = ds_engine.module.generate(inputs, synced_gpus=True)
+        nvtx.range_pop()
         iteration_num += 1
 
 
