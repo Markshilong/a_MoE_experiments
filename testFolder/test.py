@@ -6,7 +6,13 @@ import os
 import signal
 import torch
 
+stream1 = torch.cuda.Stream
+count1 = 0
+with torch.cuda.stream(stream1):
+    count1 = count1 + 1
 
+with torch.cuda.stream(stream1):
+    count1 = count1 + 1
 # # /home/mark/anaconda3/envs/deepspeed/bin/python
 
 # process = psutil.Process()
