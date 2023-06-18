@@ -2,4 +2,4 @@ strace_all_ori/
 disk_trace/
 view_params/
 testFolder/data/*
-nsys-rep/*
+nsys-rep/
