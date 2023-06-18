@@ -170,7 +170,7 @@ ds_config = {
         "stage": 3,
         "offload_param": {
             "device": "nvme",
-            "nvme_path": "/home/shilong/Research/nvme_offload",
+            "nvme_path": "/home/shilonglei/OOC/nvme_offload",
             "pin_memory": True,
             "buffer_count": 6,
             "buffer_size": 1e8,
