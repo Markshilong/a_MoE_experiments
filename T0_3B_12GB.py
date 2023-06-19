@@ -238,17 +238,21 @@ ds_engine.module.eval()  # inference
 # And of course if you have just one input to process you then need to pass the same string to both gpus
 # If you use only one GPU, then you will have only rank 0.
 rank = torch.distributed.get_rank()
-if rank == 0:
-    text_in = "what do you think of president Obama?"
-    # text_in = "I really want to eat an apple now"
-elif rank == 1:
-    text_in = "Is this review positive or negative? Review: this is the worst restaurant ever"
+# if rank == 0:
+#     text_in = "what do you think of president Obama?"
+#     # text_in = "I really want to eat an apple now"
+# elif rank == 1:
+#     text_in = "Is this review positive or negative? Review: this is the worst restaurant ever"
+text_in = "what do you think of president Obama?"
+batch_size = 128
+from copy import deepcopy
+text_ins = [deepcopy(text_in) for _ in range(batch_size)]
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 time3 = time.time()
 print(f"\n--------[{time3 - time0}s] tokenizer.from_pretrained() DONE, interval:{time3 - time2} -------------\n")
 
-inputs = tokenizer.encode(text_in, return_tensors="pt").to(device=local_rank)
+inputs = tokenizer.encode(text_ins, return_tensors="pt").to(device=local_rank)
 #from transformers.deepspeed import is_deepspeed_zero3_enabled
 #print(f"Deepspeed 3 is enabled: {is_deepspeed_zero3_enabled()}")
 

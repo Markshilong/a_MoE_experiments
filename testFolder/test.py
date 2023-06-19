@@ -6,15 +6,22 @@ import os
 import signal
 import torch
 
-stream1 = torch.cuda.Stream
-count1 = 0
-with torch.cuda.stream(stream1):
-    count1 = count1 + 1
+import copy
 
-with torch.cuda.stream(stream1):
-    count1 = count1 + 1
-# # /home/mark/anaconda3/envs/deepspeed/bin/python
+# Input sentence
+text_in = "what do you think of president Obama?"
 
+# Number of replicas
+num_replicas = 3
+
+# Create a list of replicated sentences using deepcopy
+text_ins = [copy.deepcopy(text_in) for _ in range(num_replicas)]
+
+# Print the replicated sentences
+print(text_ins)
+text_ins[1] = "adfadsf"
+
+print(text_ins)
 # process = psutil.Process()
 # pid = process.pid
 # strace_command = "sudo strace -o strace_all_test.txt -f -t -p " # +str(pid)
@@ -47,12 +54,12 @@ with torch.cuda.stream(stream1):
 # #     print(f'send SIGINT to {child.pid}')
 # #     result = subprocess.run(["kill", "-INT", str(child.pid)], capture_output=True, text=True)
 
-duration = 1 # run for 3 seconds
-count = 0
+# duration = 1 # run for 3 seconds
+# count = 0
 
-while True:
-    print("Executing once")
-    start_time = time.time()
-    while (time.time() - start_time < duration):
-        count += 1
-    time.sleep(1)
+# while True:
+#     print("Executing once")
+#     start_time = time.time()
+#     while (time.time() - start_time < duration):
+#         count += 1
+#     time.sleep(1)
