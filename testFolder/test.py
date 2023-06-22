@@ -5,23 +5,34 @@ import sys
 import os
 import signal
 import torch
+from transformers import AutoTokenizer, AutoConfig, AutoModelForSeq2SeqLM
+from transformers.deepspeed import HfDeepSpeedConfig
+from copy import deepcopy
 
-import copy
+batch_size = 1024
+model_name = "bigscience/T0_3B"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+text_in = "This is a dog"
+text_ins = [deepcopy(text_in) for _ in range(batch_size)]
 
-# Input sentence
-text_in = "what do you think of president Obama?"
+encoded_inputs = tokenizer.batch_encode_plus(text_ins, padding=True, truncation=True, return_tensors="pt")
 
-# Number of replicas
-num_replicas = 3
 
-# Create a list of replicated sentences using deepcopy
-text_ins = [copy.deepcopy(text_in) for _ in range(num_replicas)]
 
-# Print the replicated sentences
-print(text_ins)
-text_ins[1] = "adfadsf"
+# # Input sentence
+# text_in = "what do you think of president Obama?"
 
-print(text_ins)
+# # Number of replicas
+# num_replicas = 3
+
+# # Create a list of replicated sentences using deepcopy
+# text_ins = [copy.deepcopy(text_in) for _ in range(num_replicas)]
+
+# # Print the replicated sentences
+# print(text_ins)
+# text_ins[1] = "adfadsf"
+
+# print(text_ins)
 # process = psutil.Process()
 # pid = process.pid
 # strace_command = "sudo strace -o strace_all_test.txt -f -t -p " # +str(pid)

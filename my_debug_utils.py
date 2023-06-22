@@ -44,13 +44,13 @@ sar_command = "sar -u 1 120 > sar_allCPU_inference_ori.txt"  # all cpus, per 1 s
 sar_command = "sar -P ALL 1 120 > sar_seperateCPUs_inference_ori.txt"  # all cpus, per 1 second
 
 # ---- nvidia-smi ----
-nvidia_monitor_enabled = False #
-nvidia_command = "/home/shilong/Research/a_MoE_experiments/monitors/nvidia-smi_prof.sh /home/shilong/Research/a_MoE_experiments/monitors/gpu_trace/nvidiasmi_noOffload.txt"
+nvidia_monitor_enabled = True #
+nvidia_command = "/home/shilonglei/OOC/a_MoE_experiments/monitors/nvidia-smi_prof.sh /home/shilonglei/OOC/a_MoE_experiments/monitors/gpu_trace/nvidiasmi_noOffload.txt"
 
 
 # ---- inference duration ---
 inference_duration_enabled = False
-duration = timedelta(minutes=2)
+duration = timedelta(minutes=1)
 # --------------------------------------------------------------------------------------------
 
 # ----

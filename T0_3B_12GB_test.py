@@ -211,7 +211,7 @@ ds_config = {
 # this line instructs transformers to partition the model directly over multiple gpus using
 # deepspeed.zero.Init when model's `from_pretrained` method is called.
 nvtx.range_push("HfDeepSpeedConfig(ds_config)")
-dschf = HfDeepSpeedConfig(ds_config)  # keep this object alive
+# dschf = HfDeepSpeedConfig(ds_config)  # keep this object alive
 nvtx.range_pop()
 
 nvtx.range_push("model.from_pretrained")
@@ -224,20 +224,21 @@ print(f"\n--------[{time1 - time0}s] model.from_pretrained DONE, interval:{time1
 
 # initialise Deepspeed ZeRO and store only the engine object
 nvtx.range_push("deepspeed.initialize")
-ds_engine = deepspeed.initialize(model=model, config_params=ds_config)[0]
+# ds_engine = deepspeed.initialize(model=model, config_params=ds_config)[0]
 nvtx.range_pop()
 time2 = time.time()
 print(f"\n--------[{time2 - time0}s] deepspeed.initialize DONE, interval:{time2 - time1} -------------\n")
 
 
-ds_engine.module.eval()  # inference
+# ds_engine.module.eval()  # inference
+model.eval().to(device=local_rank)
 
 
 # Deepspeed ZeRO can process unrelated inputs on each GPU. So for 2 gpus you process 2 inputs at once.
 # If you use more GPUs adjust for more.
 # And of course if you have just one input to process you then need to pass the same string to both gpus
 # If you use only one GPU, then you will have only rank 0.
-rank = torch.distributed.get_rank()
+# rank = torch.distributed.get_rank()
 # if rank == 0:
 #     text_in = "what do you think of president Obama?"
 #     # text_in = "I really want to eat an apple now"
@@ -290,13 +291,14 @@ if (inference_duration_enabled):
     while datetime.now() < end_time:
         with torch.no_grad():
             nvtx.range_push(f"inference iteration {iteration_num}")
-            outputs = ds_engine.module.generate(input_ids, synced_gpus=True)
+            # outputs = ds_engine.module.generate(inputs_1, synced_gpus=True)
+            outputs = model.generate(input_ids)
             nvtx.range_pop()
             iteration_num += 1
 else:
     with torch.no_grad():
         nvtx.range_push("inference")
-        outputs = ds_engine.module.generate(input_ids, synced_gpus=True)
+        outputs = model.generate(input_ids)
         nvtx.range_pop()
 
 
@@ -323,7 +325,7 @@ nvtx.range_pop()
 time4 = time.time()
 print(f"\n--------[{time4 - time0}s] encode + Generate + decode DONE, interval:{time4 - time3} -------------\n")
 
-print(f"rank{rank}:\n   in={text_in}\n  out={text_out}")
+print(f"rank:?\n   in={text_in}\n  out={text_out}")
 
 print("\n\n------------time summary ---------------")
 print(f"[0s] Start time")
