@@ -4,3 +4,5 @@ view_params/
 testFolder/data/*
 nsys-rep/
 T0_3B_12GB_training_output
+a_MoE_experiments/nsys-rep
+a_MoE_experiments/monitors/gpu_trace
