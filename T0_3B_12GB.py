@@ -167,7 +167,7 @@ ds_config = {
         "enabled": False
     },
     "zero_optimization": {
-        "stage": 0,
+        "stage": 3,
         "offload_param": {
             "device": "nvme",
             "nvme_path": "/home/shilonglei/OOC/nvme_offload",
