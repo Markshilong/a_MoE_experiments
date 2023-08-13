@@ -20,7 +20,7 @@ shilong: Adapted from single_task_fine_tune.py
 https://github.com/bigscience-workshop/t-zero/blob/master/examples/README.md
 
 nsys profile --delay 75 -t cuda,osrt,nvtx \
-    -o /home/shilonglei/OOC/a_MoE_experiments/nsys-rep/nvmeOffload_train_dsOptim_bsize6_4 \
+    -o /home/shilonglei/OOC/a_MoE_experiments/nsys-rep/test_nvtx \
     -w true \
     --force-overwrite true \
 python T0_3B_12GB_training_2.py \

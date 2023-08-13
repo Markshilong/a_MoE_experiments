@@ -1,7 +1,7 @@
 # integrate all my debug utils
 # -------- usage --------
 # import sys
-# sys.path.append('/home/mark/Research/a_MoE_experiments/my_debug_utils')
+# sys.path.append('/shared_ssd_storage/shilonglei/OOC/a_MoE_experiments/my_debug_utils.py')
 # from my_debug_utils import ...
 
 # useful command
@@ -44,7 +44,7 @@ sar_command = "sar -u 1 120 > sar_allCPU_inference_ori.txt"  # all cpus, per 1 s
 sar_command = "sar -P ALL 1 120 > sar_seperateCPUs_inference_ori.txt"  # all cpus, per 1 second
 
 # ---- nvidia-smi ----
-nvidia_monitor_enabled = True #
+nvidia_monitor_enabled = False #
 nvidia_command = "/home/shilonglei/OOC/a_MoE_experiments/monitors/nvidia-smi_prof.sh /home/shilonglei/OOC/a_MoE_experiments/monitors/gpu_trace/nvidiasmi_noOffload.txt"
 
 
@@ -56,6 +56,9 @@ duration = timedelta(minutes=1)
 # ----
 countt = 0
 module_index = 0
+
+# --------------------
+lsl_zero_stage = 1
 
 def my_saveload_module_individually(current_submodule, save_or_load, print=True):
     # save/load T5LayerNorm and Embedding weights

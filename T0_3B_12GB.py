@@ -262,19 +262,21 @@ input_ids = encoded_inputs["input_ids"]
 #print(f"Deepspeed 3 is enabled: {is_deepspeed_zero3_enabled()}")
 
 
-for i in range(2):
-    print(f"monitor will start in {i+1} seconds")
-    time.sleep(1)
 
 if (sar_monitor_enabled):
+    for i in range(2):
+        print(f"sar_monitor will start in {i+1} seconds")
+        time.sleep(1)
     sar_process = subprocess.Popen(sar_command, shell=True)
 
 if (nvidia_monitor_enabled):
+    for i in range(2):
+        print(f"nvidia_monitor will start in {i+1} seconds")
+        time.sleep(1)
     nvidia_process = subprocess.Popen(nvidia_command, shell=True)
     nvidia_parent_process = psutil.Process(nvidia_process.pid)
 
-print(f"start inference in 1 seconds")
-time.sleep(1)
+print(f" --- start inference ---")
 
 
 

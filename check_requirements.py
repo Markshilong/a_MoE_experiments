@@ -3,6 +3,7 @@
 # To deploy on 1 gpu:
 #
 # deepspeed --num_gpus 1 check_requirements.py
+# torchrun --nproc_per_node=1 check_requirements.py
 # or:
 # python -m torch.distributed.run --nproc_per_node=1 check_requirements.py
 #
